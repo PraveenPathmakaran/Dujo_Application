@@ -1,12 +1,16 @@
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dujo_application/home/admin_meeting/admin_meeting.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../../../teacher_section/attendence_section/attendence-Book/attendence_Book_status.dart';
+import '../../../../admin_meeting/admin_meeting_list.dart';
+import '../../../../admin_notice/admin_notice.dart';
+import '../../../../admin_notice/admin_notice_model_list.dart';
 import '../../../../teacher_home/widgets/card_container.dart';
 import '../../../time_table/time_table_screen.dart';
 import '../../constants.dart';
@@ -282,7 +286,9 @@ class _StudentsHomeHomeScreenState extends State<StudentsHomeHomeScreen> {
                       children: [
                         HomeCard(
                           onPress: () {
-                            Get.to(AttendenceBookScreen(schoolId: widget.schoolID, classID: widget.classID));
+                            Get.to(AttendenceBookScreen(
+                                schoolId: widget.schoolID,
+                                classID: widget.classID));
                           },
                           icon: 'assets/icons/attendence.svg',
                           title: 'Attendence',
@@ -333,7 +339,14 @@ class _StudentsHomeHomeScreenState extends State<StudentsHomeHomeScreen> {
                           title: 'Important \n Days',
                         ),
                         HomeCard(
-                          onPress: () {},
+                          onPress: () {
+                            Navigator.of(context)
+                                .push(MaterialPageRoute(builder: (context) {
+                              return AdminNoticeModelList(
+                                schoolId: widget.schoolID,
+                              );
+                            }));
+                          },
                           icon: 'assets/icons/notices.svg',
                           title: 'Notices',
                         ),
@@ -366,6 +379,25 @@ class _StudentsHomeHomeScreenState extends State<StudentsHomeHomeScreen> {
                           onPress: () {},
                           icon: 'assets/icons/event.svg',
                           title: 'Events',
+                        ),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        HomeCard(
+                          onPress: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => AdminMeetingModelList(
+                                  schoolId: widget.schoolID,
+                                ),
+                              ),
+                            );
+                          },
+                          icon: 'assets/icons/event.svg',
+                          title: 'Meetings'.tr,
                         ),
                       ],
                     ),

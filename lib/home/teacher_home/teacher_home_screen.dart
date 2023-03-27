@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dujo_application/home/admin_notice/admin_notice_model_list.dart';
 import 'package:dujo_application/home/teacher_home/get_teacher_subject.dart';
 import 'package:dujo_application/home/teacher_home/progress_Report/create_examName_screen.dart';
 import 'package:dujo_application/home/teacher_home/teacher_addlist_of_class.dart';
@@ -13,6 +14,7 @@ import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../teacher_section/attendence_section/attendence-Book/attendence_subject_list.dart';
+import '../admin_meeting/admin_meeting_list.dart';
 import '../student_home/Students_sections/constants.dart';
 import 'leave_letters/leave_lettersList.dart';
 import 'widgets/card_container.dart';
@@ -307,7 +309,13 @@ class _TeacherHomeScreenState extends State<TeacherHomeScreen> {
                           title: 'Important \n Days',
                         ),
                         HomeCard(
-                          onPress: () {},
+                          onPress: () {
+                            Navigator.of(context)
+                                .push(MaterialPageRoute(builder: (context) {
+                              return AdminNoticeModelList(
+                                  schoolId: widget.schoolId);
+                            }));
+                          },
                           icon: 'assets/icons/notices.svg',
                           title: 'Notices',
                         ),
@@ -345,6 +353,20 @@ class _TeacherHomeScreenState extends State<TeacherHomeScreen> {
                           onPress: () {},
                           icon: 'assets/icons/event.svg',
                           title: 'Events',
+                        ),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        HomeCard(
+                          onPress: () {
+                            Get.to(AdminMeetingModelList(
+                              schoolId: widget.schoolId,
+                            ));
+                          },
+                          icon: 'assets/icons/resume.svg',
+                          title: 'Meeting',
                         ),
                       ],
                     ),
