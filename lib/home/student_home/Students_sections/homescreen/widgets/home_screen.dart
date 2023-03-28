@@ -344,6 +344,7 @@ class _StudentsHomeHomeScreenState extends State<StudentsHomeHomeScreen> {
                                 .push(MaterialPageRoute(builder: (context) {
                               return AdminNoticeModelList(
                                 schoolId: widget.schoolID,
+                                fromPage: 'visibleStudent',
                               );
                             }));
                           },

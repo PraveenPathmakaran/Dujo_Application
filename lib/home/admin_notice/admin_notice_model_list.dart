@@ -5,8 +5,13 @@ import 'package:flutter/material.dart';
 import 'admin_notice.dart';
 
 class AdminNoticeModelList extends StatelessWidget {
-  const AdminNoticeModelList({super.key, required this.schoolId});
+  const AdminNoticeModelList({
+    super.key,
+    required this.schoolId,
+    required this.fromPage,
+  });
   final String schoolId;
+  final String fromPage;
 
   @override
   Widget build(BuildContext context) {
@@ -16,6 +21,7 @@ class AdminNoticeModelList extends StatelessWidget {
               .collection('SchoolListCollection')
               .doc(schoolId)
               .collection('adminNotice')
+              .where(fromPage, isEqualTo: true)
               .get(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {

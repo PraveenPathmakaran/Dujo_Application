@@ -2,27 +2,24 @@ import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dujo_application/home/admin_notice/admin_notice_model_list.dart';
-import 'package:dujo_application/home/teacher_home/get_teacher_subject.dart';
 import 'package:dujo_application/home/teacher_home/progress_Report/create_examName_screen.dart';
 import 'package:dujo_application/home/teacher_home/teacher_addlist_of_class.dart';
 import 'package:dujo_application/teacher_section/attendence_section/attendence-Book/attendence_Book_status.dart';
 import 'package:dujo_application/teacher_section/attendence_section/classTeacher_classes.dart';
-import 'package:dujo_application/teacher_section/attendence_section/take_attentence.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 
-import '../../teacher_section/attendence_section/attendence-Book/attendence_subject_list.dart';
 import '../admin_meeting/admin_meeting_list.dart';
 import '../student_home/Students_sections/constants.dart';
 import 'leave_letters/leave_lettersList.dart';
 import 'widgets/card_container.dart';
 
 class TeacherHomeScreen extends StatefulWidget {
-  var schoolId;
-  var teacherEmail;
-  var classID;
+  String schoolId;
+  String teacherEmail;
+  String classID;
   TeacherHomeScreen(
       {required this.schoolId,
       required this.teacherEmail,
@@ -47,6 +44,7 @@ class _TeacherHomeScreenState extends State<TeacherHomeScreen> {
     super.initState();
   }
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
@@ -54,7 +52,7 @@ class _TeacherHomeScreenState extends State<TeacherHomeScreen> {
           Container(
             width: 100.w,
             height: 50.h,
-            padding: EdgeInsets.all(kDefaultPadding),
+            padding: const EdgeInsets.all(kDefaultPadding),
             child: ListView(
               children: [
                 Center(
@@ -64,7 +62,7 @@ class _TeacherHomeScreenState extends State<TeacherHomeScreen> {
                       Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          ParentName(
+                          const ParentName(
                             parentName: 'Teacher',
                           ),
                           kHalfSizedBox,
@@ -313,7 +311,9 @@ class _TeacherHomeScreenState extends State<TeacherHomeScreen> {
                             Navigator.of(context)
                                 .push(MaterialPageRoute(builder: (context) {
                               return AdminNoticeModelList(
-                                  schoolId: widget.schoolId);
+                                schoolId: widget.schoolId,
+                                fromPage: 'visibleTeacher',
+                              );
                             }));
                           },
                           icon: 'assets/icons/notices.svg',

@@ -5,21 +5,22 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 
-
 import '../../teacher_section/attendence_section/attendence-Book/attendence_Book_status.dart';
+import '../admin_meeting/admin_meeting_list.dart';
+import '../admin_notice/admin_notice_model_list.dart';
 import '../student_home/Students_sections/constants.dart';
 import '../teacher_home/widgets/card_container.dart';
 
 class GuardianHomeScreen extends StatefulWidget {
-    var schoolId;
+  var schoolId;
   var classId;
   var guardianmailId;
-  
-   GuardianHomeScreen({
-    required this.schoolId,
-    required this.classId,
-    required this.guardianmailId,
-    super.key});
+
+  GuardianHomeScreen(
+      {required this.schoolId,
+      required this.classId,
+      required this.guardianmailId,
+      super.key});
   static String routeName = 'GuardianHome';
 
   @override
@@ -27,15 +28,16 @@ class GuardianHomeScreen extends StatefulWidget {
 }
 
 class _GuardianHomeScreenState extends State<GuardianHomeScreen> {
-  String gurdianName ='';
-  String studentName='';
-  String gurdianImage="";
-  String studentID="";
+  String gurdianName = '';
+  String studentName = '';
+  String gurdianImage = "";
+  String studentID = "";
   @override
   void initState() {
-getParentDetails().then((value) => getstudentDetails());
+    getParentDetails().then((value) => getstudentDetails());
     super.initState();
   }
+
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
@@ -43,7 +45,7 @@ getParentDetails().then((value) => getstudentDetails());
           Container(
             width: 100.w,
             height: 50.h,
-            padding:  EdgeInsets.all(kDefaultPadding),
+            padding: EdgeInsets.all(kDefaultPadding),
             child: ListView(
               children: [
                 Center(
@@ -52,27 +54,21 @@ getParentDetails().then((value) => getstudentDetails());
                     children: [
                       Column(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children:  [
+                        children: [
                           ParentName(
                             parentName: 'Guardian',
                           ),
                           kHalfSizedBox,
-                  
                           kHalfSizedBox,
                           StudentClass(studentClass: gurdianName),
                           kHalfSizedBox,
                         ],
                       ),
                       kHalfSizedBox,
-                      StudentPicture(
-                          picAddress:gurdianImage,
-                          onPress: () {
-               
-                          }),
+                      StudentPicture(picAddress: gurdianImage, onPress: () {}),
                     ],
                   ),
                 ),
-
                 sizedBox,
                 Column(
                   children: [
@@ -219,7 +215,7 @@ getParentDetails().then((value) => getstudentDetails());
                       children: [
                         HomeCard(
                           onPress: () {
-                                     Get.to(AttendenceBookScreen(
+                            Get.to(AttendenceBookScreen(
                                 schoolId: widget.schoolId,
                                 classID: widget.classId));
                           },
@@ -272,7 +268,15 @@ getParentDetails().then((value) => getstudentDetails());
                           title: 'Important \n Days',
                         ),
                         HomeCard(
-                          onPress: () {},
+                          onPress: () {
+                            Navigator.of(context)
+                                .push(MaterialPageRoute(builder: (context) {
+                              return AdminNoticeModelList(
+                                schoolId: widget.schoolId,
+                                fromPage: 'visibleGuardian',
+                              );
+                            }));
+                          },
                           icon: 'assets/icons/notices.svg',
                           title: 'Notices',
                         ),
@@ -308,6 +312,23 @@ getParentDetails().then((value) => getstudentDetails());
                         ),
                       ],
                     ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        HomeCard(
+                          onPress: () {
+                            Navigator.of(context)
+                                .push(MaterialPageRoute(builder: (context) {
+                              return AdminMeetingModelList(
+                                schoolId: widget.schoolId,
+                              );
+                            }));
+                          },
+                          icon: 'assets/icons/event.svg',
+                          title: 'Meetings',
+                        ),
+                      ],
+                    ),
                   ],
                 ),
               ),
@@ -317,7 +338,8 @@ getParentDetails().then((value) => getstudentDetails());
       ),
     );
   }
-  Future <void> getParentDetails() async {
+
+  Future<void> getParentDetails() async {
     var vari = await FirebaseFirestore.instance
         .collection("SchoolListCollection")
         .doc(widget.schoolId)
@@ -326,15 +348,12 @@ getParentDetails().then((value) => getstudentDetails());
         .get();
     setState(() {
       gurdianName = vari.data()!['guardianName'];
-          gurdianImage = vari.data()!['guardianImage'];
-            studentID = vari.data()!['wStudent'];
-
-
-
+      gurdianImage = vari.data()!['guardianImage'];
+      studentID = vari.data()!['wStudent'];
     });
-
   }
-    getstudentDetails() async {
+
+  getstudentDetails() async {
     var vari = await FirebaseFirestore.instance
         .collection("SchoolListCollection")
         .doc(widget.schoolId)
@@ -346,7 +365,6 @@ getParentDetails().then((value) => getstudentDetails());
     setState(() {
       studentName = vari.data()!['studentName'];
     });
-  
   }
 }
 
@@ -392,5 +410,4 @@ class HomeCard extends StatelessWidget {
       ),
     );
   }
-    
 }
